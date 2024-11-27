@@ -9,8 +9,9 @@ import "./a_pp.css";
 import { LandingPage } from "./pages/landing_page";
 
 function App() {
+  //basename="/multi-step-form" quick fix to deploy on github page
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/multi-step-form">
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/subscription" element={<SubscriptionPage />}>
