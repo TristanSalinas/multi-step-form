@@ -5,7 +5,7 @@ import { Step2 } from "./components/subscription_steps/step-2";
 import { Step3 } from "./components/subscription_steps/step_3";
 import { Step4 } from "./components/subscription_steps/step_4";
 import { Step5 } from "./components/subscription_steps/step_5";
-import "./App.css";
+import "./a_pp.css";
 import { LandingPage } from "./pages/landing_page";
 
 function App() {
