@@ -5,11 +5,11 @@ import { Step2 } from "./components/subscription_steps/step-2";
 import { Step3 } from "./components/subscription_steps/step_3";
 import { Step4 } from "./components/subscription_steps/step_4";
 import { Step5 } from "./components/subscription_steps/step_5";
-import "./a_pp.css";
 import { LandingPage } from "./pages/landing_page";
+//import { StepWrapper } from "./components/subscription_steps/step_wrapper";
 
 function App() {
-  //basename="/multi-step-form" quick fix to deploy on github page
+  //basename="/multi-step-form" => quick fix to match the {base:/multi-step-form/} in vite-config to deploy on github page
   return (
     <BrowserRouter basename="/multi-step-form">
       <Routes>
