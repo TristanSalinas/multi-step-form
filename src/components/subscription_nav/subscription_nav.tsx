@@ -1,4 +1,7 @@
-export function SubscriptionNav({ currentStep }: { currentStep: number }) {
+import { useSubscriptionStep } from "../../hooks/usesubscriptionstep";
+
+export function SubscriptionNav() {
+  let currentStep = useSubscriptionStep().current;
   return (
     <div className="relative">
       <div

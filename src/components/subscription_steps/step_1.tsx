@@ -1,5 +1,3 @@
-import { useNavigate, useLocation } from "react-router-dom";
-import { StepFooter } from "./step_footer";
 
 interface Step1InputProps {
   label: string;
@@ -7,6 +5,7 @@ interface Step1InputProps {
   placeholder: string;
   type: string;
 }
+
 
 function Step1Input({ label, inputId, placeholder, type }: Step1InputProps) {
   return (
@@ -28,9 +27,6 @@ function Step1Input({ label, inputId, placeholder, type }: Step1InputProps) {
 }
 
 export function Step1() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  console.log(location);
   return (
     <>
       <h2 className="text-blue-950 text-2xl mb-4 font-bold">Personal Info</h2>
@@ -55,6 +51,7 @@ export function Step1() {
         placeholder="e.g. +1 234 567 890"
         type="tel"
       />
+      
     </>
   );
 }

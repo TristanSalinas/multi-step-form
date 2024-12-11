@@ -9,7 +9,7 @@ export function LandingPage() {
         <button
           className="bg-blue-100 text-blue-800 p-4 rounded-md"
           onClick={() => {
-            navigate("/subscription/Step1");
+            navigate("/subscription/step1");
           }}
         >
           PROCEED
