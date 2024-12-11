@@ -1,7 +1,7 @@
-import { useSubscriptionStep } from "../../hooks/usesubscriptionstep";
+import { useSubscriptionStep } from "../../hooks/use_subscription_step";
 
 export function SubscriptionNav() {
-  let currentStep = useSubscriptionStep().current;
+  const currentStep = useSubscriptionStep().current;
   return (
     <div className="relative">
       <div

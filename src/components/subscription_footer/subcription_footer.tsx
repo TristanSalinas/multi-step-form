@@ -1,4 +1,4 @@
-import { useSubscriptionStep } from "../../hooks/usesubscriptionstep";
+import { useSubscriptionStep } from "../../hooks/use_subscription_step";
 
 export function SubscriptionFooter() {
   return (
