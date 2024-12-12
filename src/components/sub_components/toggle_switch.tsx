@@ -21,7 +21,7 @@ export function ToggleSwitch({
       }}
       className="flex font-semibold gap-4 cursor-pointer justify-center p-4 bg-slate-100 rounded-sm items-center "
     >
-      <p className={isLeft ? "text-blue-950" : "text-gray-400"}>{leftValue}</p>
+      <p className={isLeft ? "text-blue-950" : "opacity-35"}>{leftValue}</p>
       <div className="flex items-center relative w-12 h-6 bg-blue-950 rounded-full">
         <span
           className={
@@ -30,9 +30,7 @@ export function ToggleSwitch({
           }
         ></span>
       </div>
-      <p className={!isLeft ? "text-blue-950" : "text-gray-400"}>
-        {rightValue}
-      </p>
+      <p className={!isLeft ? "text-blue-950" : "opacity-35"}>{rightValue}</p>
     </div>
   );
 }
