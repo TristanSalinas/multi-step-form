@@ -15,13 +15,27 @@ interface PlanCardProps {
 
 function PlanCard(props: PlanCardProps) {
   return (
-    <div className="flex">
-      <img src={props.iconPath} />
-      <div>
-        <p>{props.name}</p>
-        <p>{props.billing === "MONTHLY" ? props.price : props.price * 10}</p>
+    <label htmlFor={props.name}>
+      <input
+        className="peer hidden"
+        type="radio"
+        name="plan"
+        id={props.name}
+        value={props.name}
+      />
+      <div className="rounded-lg h-24 peer-checked:border-blue-900 peer-checked:bg-blue-50 border-2 p-4 flex gap-4">
+        <img src={props.iconPath} />
+        <div>
+          <p className="font-semibold">{props.name}</p>
+          <p className="opacity-35">
+            {props.billing === "MONTHLY"
+              ? `$${props.price}/mo`
+              : `$${props.price * 10}/yr`}
+          </p>
+          {props.billing !== "MONTHLY" && <p>2 months free</p>}
+        </div>
       </div>
-    </div>
+    </label>
   );
 }
 
@@ -48,10 +62,17 @@ export function Step2() {
 
   return (
     <>
-      <h2>Hi this is the Step2</h2>
-      {plans.map((plan) => {
-        return <PlanCard {...plan} billing={billing} />;
-      })}
+      <div className="flex gap-4 flex-col mb-8">
+        <h2 className="text-2xl font-semibold text-blue-950">
+          Select your plan
+        </h2>
+        <p className="opacity-40">
+          You have the option of monthly or yearly billing
+        </p>
+        {plans.map((plan) => {
+          return <PlanCard key={plan.name} {...plan} billing={billing} />;
+        })}
+      </div>
       <ToggleSwitch
         leftValue="Monthly"
         rightValue="Yearly"
