@@ -1,13 +1,23 @@
+import { useFormContext } from "../../hooks/use_form_context";
+import { User } from "../../types/form_types";
 
 interface Step1InputProps {
   label: string;
   inputId: string;
   placeholder: string;
   type: string;
+  value: string | undefined;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-
-function Step1Input({ label, inputId, placeholder, type }: Step1InputProps) {
+function Step1Input({
+  label,
+  inputId,
+  placeholder,
+  type,
+  value,
+  onChange,
+}: Step1InputProps) {
   return (
     <>
       <label
@@ -18,8 +28,10 @@ function Step1Input({ label, inputId, placeholder, type }: Step1InputProps) {
       </label>
       <input
         className="mb-3 px-2 py-1 block w-full border rounded"
+        onChange={onChange}
         id={inputId}
         type={type}
+        value={value || ""}
         placeholder={placeholder}
       />
     </>
@@ -27,6 +39,37 @@ function Step1Input({ label, inputId, placeholder, type }: Step1InputProps) {
 }
 
 export function Step1() {
+  const data = useFormContext();
+
+  const updateName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    data.updateFormData({
+      ...data.formData,
+      user: {
+        ...data.formData.user,
+        name: e.target.value,
+      },
+    });
+  };
+
+  const updateEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    data.updateFormData({
+      ...data.formData,
+      user: {
+        ...data.formData.user,
+        email: e.target.value,
+      },
+    });
+  };
+  const updatePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    data.updateFormData({
+      ...data.formData,
+      user: {
+        ...data.formData.user,
+        phone: e.target.value,
+      },
+    });
+  };
+
   return (
     <>
       <h2 className="text-blue-950 text-2xl mb-4 font-bold">Personal Info</h2>
@@ -38,20 +81,25 @@ export function Step1() {
         inputId="name"
         placeholder="e.g. Stephen King"
         type="text"
+        value={data.formData.user?.name}
+        onChange={updateName}
       />
       <Step1Input
         label="Email Address"
         inputId="email"
         placeholder="e.g. stephenkin@lorem.com"
         type="email"
+        value={data.formData.user?.email}
+        onChange={updateEmail}
       />
       <Step1Input
         label="Phone Number"
         inputId="phone"
         placeholder="e.g. +1 234 567 890"
         type="tel"
+        value={data.formData.user?.phone}
+        onChange={updatePhone}
       />
-      
     </>
   );
 }

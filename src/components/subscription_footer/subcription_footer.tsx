@@ -1,3 +1,4 @@
+import { useFormContext } from "../../hooks/use_form_context";
 import { useSubscriptionStep } from "../../hooks/use_subscription_step";
 
 export function SubscriptionFooter() {
@@ -11,7 +12,7 @@ export function SubscriptionFooter() {
           Go Back
         </button>
         <button
-          className="px-4 py-2 rounded-md bg-blue-950 text-white"
+          className={`${useFormContext().isStepValid(useSubscriptionStep().current) ? "opacity-100" : "opacity-40"}  bg-blue-950 px-4 py-2 rounded-md text-white`}
           onClick={useSubscriptionStep().next}
         >
           Next Step

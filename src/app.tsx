@@ -1,12 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SubscriptionPage } from "./pages/subscription_page";
 import { Step1 } from "./components/subscription_steps/step_1";
-import { Step2 } from "./components/subscription_steps/step-2";
+import { Step2 } from "./components/subscription_steps/step_2";
 import { Step3 } from "./components/subscription_steps/step_3";
 import { Step4 } from "./components/subscription_steps/step_4";
 import { Step5 } from "./components/subscription_steps/step_5";
 import { LandingPage } from "./pages/landing_page";
-//import { StepWrapper } from "./components/subscription_steps/step_wrapper";
 
 function App() {
   //basename="/multi-step-form" => quick fix to match the {base:/multi-step-form/} in vite-config to deploy on github page
