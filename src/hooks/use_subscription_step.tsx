@@ -5,6 +5,7 @@ interface UseSubscriptionStepReturn {
   next: () => void;
   previous: () => void;
   current: number;
+  navigateTo: (number: number) => void;
 }
 
 export function useSubscriptionStep(): UseSubscriptionStepReturn {
@@ -27,10 +28,14 @@ export function useSubscriptionStep(): UseSubscriptionStepReturn {
     }
   };
 
+  const navigateTo = (stepNumber: number) => {
+    navigate(`/subscription/step${stepNumber}`);
+  };
+
   return {
     next,
     previous,
     current,
+    navigateTo,
   };
 }
-

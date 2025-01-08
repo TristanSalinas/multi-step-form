@@ -1,13 +1,47 @@
+import { useFormContext } from "../../hooks/use_form_context";
+
 type BillingType = "MONTHLY" | "YEARLY";
 
-interface PlanCardProps {
+interface AddOnsCardProps {
+  id: "onlineService" | "largerSrtorage" | "customizableProfile";
   name: string;
-  priceMo: number;
+  price: number;
   desc: string;
   billing: BillingType;
 }
 
-function PlanCard(props: PlanCardProps) {
+function AddOnsCard(props: AddOnsCardProps) {
+  const { formData, updateFormData } = useFormContext();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked;
+    //si formData n'a pas encore d'addons on les ajoutes
+
+    if (!formData.addOns) {
+      const defaultaddons = {
+        onlineService: false,
+        largerSrtorage: false,
+        customizableProfile: false,
+      };
+      //on update la form avec la nouvelle valeure checked de l'input
+      updateFormData({
+        ...formData,
+        addOns: {
+          ...defaultaddons,
+          [props.id]: checked,
+        },
+      });
+    } else {
+      //Sinon on update juste la valeure concernée par le changement de la checkbox sans toucher aux autre
+      updateFormData({
+        ...formData,
+        addOns: {
+          ...formData.addOns,
+          [props.id]: !formData.addOns[props.id],
+        },
+      });
+    }
+  };
   return (
     <label
       className="rounded-lg p-4 h-24 flex items-center justify-center gap-4 border-2 has-[input:checked]:border-blue-500"
@@ -19,6 +53,8 @@ function PlanCard(props: PlanCardProps) {
         name="add-on"
         id={props.name}
         value={props.name}
+        checked={formData.addOns ? formData.addOns[props.id] : false}
+        onChange={handleChange}
       />
 
       <div className="text-sm flex-1">
@@ -28,40 +64,59 @@ function PlanCard(props: PlanCardProps) {
 
       <p className="text-blue-700">
         {props.billing === "MONTHLY"
-          ? `$${props.priceMo}/mo`
-          : `$${props.priceMo}/yr`}
+          ? `$${props.price}/mo`
+          : `$${props.price}/yr`}
       </p>
     </label>
   );
 }
 
+interface AddOnsDataArray {
+  id: "onlineService" | "largerSrtorage" | "customizableProfile";
+  name: string;
+  price: number;
+  desc: string;
+}
+
 export function Step3() {
-  const addOns = [
+  const formData = useFormContext().formData;
+
+  const addOns: AddOnsDataArray[] = [
     {
+      id: "onlineService",
       name: "Online service",
-      priceMo: 1,
+      price: 1,
       desc: "Acces to multiplayer games",
     },
     {
+      id: "largerSrtorage",
       name: "Larger storage",
-      priceMo: 2,
+      price: 2,
       desc: "Extra 1TB of cloud save",
     },
     {
+      id: "customizableProfile",
       name: "Customizable profile",
-      priceMo: 2,
+      price: 2,
       desc: "Custom theme on your profile",
     },
   ];
 
-  const billing: BillingType = "MONTHLY";
+  const billing: BillingType = formData.plan?.billing
+    ? formData.plan?.billing
+    : "MONTHLY";
+
+  const adjustedAddOns = addOns.map((addOn) => ({
+    ...addOn,
+    price: billing === "YEARLY" ? addOn.price * 10 : addOn.price,
+  }));
 
   return (
     <div className="flex gap-4 flex-col mb-8">
       <h2 className="text-2xl font-semibold text-blue-950">Pick add-ons</h2>
       <p className="opacity-40">Add-ons help enhance your gaming experience</p>
-      {addOns.map((addOn) => {
-        return <PlanCard key={addOn.name} {...addOn} billing={billing} />;
+      {adjustedAddOns.map((addOn) => {
+        return <AddOnsCard key={addOn.name} {...addOn} billing={billing} />;
       })}
     </div>
   );

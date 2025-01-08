@@ -85,6 +85,10 @@ export function Step2() {
         ...formData,
         plan: {
           ...formData.plan,
+          price:
+            newBilling === "YEARLY"
+              ? formData.plan.price * 10
+              : formData.plan.price / 10,
           billing: newBilling,
         },
       });

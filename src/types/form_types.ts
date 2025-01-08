@@ -19,5 +19,5 @@ export interface AddOns {
 export interface FormData {
   user?: User;
   plan?: Plan;
-  addOns?: AddOns;
+  addOns: AddOns;
 }
