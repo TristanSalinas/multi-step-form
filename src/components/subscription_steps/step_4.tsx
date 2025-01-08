@@ -1,5 +1,5 @@
 import { useFormContext } from "../../hooks/use_form_context";
-import { Plan } from "../../types/form_types";
+import { Plan, AddOns } from "../../types/form_types";
 import { Link } from "react-router-dom";
 
 function PlanLine({ name, price, billing }: Plan) {
@@ -23,8 +23,49 @@ function PlanLine({ name, price, billing }: Plan) {
   );
 }
 
+function AddOnLine({ name, price, billing }: Plan) {
+  return (
+    <div>
+      <p>{name}</p>
+      <p className="text-blue-950">
+        {billing === "MONTHLY" ? "+$" + price + "/mo" : "+$" + price + "/yr"}
+      </p>
+    </div>
+  );
+}
 export function Step4() {
   const formData = useFormContext().formData;
+  const addOns = [
+    {
+      id: "onlineService",
+      name: "Online service",
+      price: 1,
+    },
+    {
+      id: "largerSrtorage",
+      name: "Larger storage",
+      price: 2,
+    },
+    {
+      id: "customizableProfile",
+      name: "Customizable profile",
+      price: 2,
+    },
+  ];
+  const adjustedAddOns = addOns.map((addOn) => ({
+    ...addOn,
+    price: formData.plan?.billing === "YEARLY" ? addOn.price * 10 : addOn.price,
+  }));
+
+  const selectedAddOns = adjustedAddOns.filter(
+    (addOn) => formData.addOns?.[addOn.id as keyof AddOns]
+  );
+  let billing: "YEARLY" | "MONTHLY" | undefined = formData.plan?.billing;
+
+  if (billing === undefined) {
+    // Handle undefined case or set a default value
+    billing = "MONTHLY"; // or any other default behavior
+  }
 
   return (
     <div className="flex gap-4 flex-col mb-8">
@@ -35,6 +76,10 @@ export function Step4() {
       <div className="bg-slate-100 p-4 pt-6 rounded-lg">
         {formData.plan && <PlanLine {...formData.plan} />}
       </div>
+      {formData.plan?.billing &&
+        selectedAddOns.map((addOn) => (
+          <AddOnLine key={addOn.id} {...addOn} billing={billing} />
+        ))}
     </div>
   );
 }
