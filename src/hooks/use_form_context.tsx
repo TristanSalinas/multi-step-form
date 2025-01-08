@@ -24,6 +24,9 @@ export function useFormContext() {
         } else {
           return false;
         }
+      case 2:
+        return formData.plan !== undefined;
+        break;
       default:
         return false;
     }

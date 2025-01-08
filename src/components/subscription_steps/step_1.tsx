@@ -1,5 +1,5 @@
 import { useFormContext } from "../../hooks/use_form_context";
-import { User } from "../../types/form_types";
+
 
 interface Step1InputProps {
   label: string;

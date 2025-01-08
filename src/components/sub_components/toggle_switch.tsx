@@ -3,15 +3,17 @@ import { useState } from "react";
 interface ToggleSwitchProps {
   leftValue: string;
   rightValue: string;
+  isLeftDefault: boolean;
   handleToggle: (isLeft: boolean) => void;
 }
 
 export function ToggleSwitch({
   leftValue,
   rightValue,
+  isLeftDefault,
   handleToggle,
 }: ToggleSwitchProps) {
-  const [isLeft, setIsLeft] = useState(true);
+  const [isLeft, setIsLeft] = useState(isLeftDefault);
 
   return (
     <div

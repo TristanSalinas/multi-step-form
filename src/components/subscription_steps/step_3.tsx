@@ -61,7 +61,7 @@ export function Step3() {
       <h2 className="text-2xl font-semibold text-blue-950">Pick add-ons</h2>
       <p className="opacity-40">Add-ons help enhance your gaming experience</p>
       {addOns.map((addOn) => {
-        return <PlanCard {...addOn} billing={billing} />;
+        return <PlanCard key={addOn.name} {...addOn} billing={billing} />;
       })}
     </div>
   );
