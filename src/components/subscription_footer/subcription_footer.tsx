@@ -12,19 +12,21 @@ export function SubscriptionFooter() {
   return (
     <div className="  flex-1 flex items-end">
       <div className="flex flex-1 justify-between p-4 items-center bg-white ">
-        {current !== 1 ? (
+        {current !== 1 && current !== 5 && (
           <button className="text-slate-400 h-min" onClick={previous}>
             Go Back
           </button>
-        ) : (
-          <div></div>
         )}
-        <button
-          className={`${isStepValid(current) ? "opacity-100" : "opacity-40"}  bg-blue-950 px-4 py-2 rounded-md text-white`}
-          onClick={handleNext}
-        >
-          Next Step
-        </button>
+        {current !== 5 && (
+          <button
+            className={`${
+              isStepValid(current) ? "opacity-100" : "opacity-40"
+            } bg-blue-950 px-4 py-2 rounded-md text-white ml-auto`}
+            onClick={handleNext}
+          >
+            {current === 4 ? "Confirm" : "Next Step"}
+          </button>
+        )}
       </div>
     </div>
   );
