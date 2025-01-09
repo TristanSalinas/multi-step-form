@@ -9,7 +9,6 @@ export function SubscriptionFooter() {
       next();
     }
   };
-  console.log(current);
   return (
     <div className="  flex-1 flex items-end">
       <div className="flex flex-1 justify-between p-4 items-center bg-white ">

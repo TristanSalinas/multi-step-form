@@ -28,6 +28,8 @@ export function useFormContext() {
         return formData.plan !== undefined;
       case 3:
         return true;
+      case 4:
+        return true;
       default:
         return false;
     }

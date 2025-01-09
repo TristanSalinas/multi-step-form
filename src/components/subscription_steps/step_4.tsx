@@ -16,7 +16,7 @@ function PlanLine({ name, price, billing }: Plan) {
           Change
         </Link>
       </div>
-      <p className="font-semibold text-blue-950 ">
+      <p className="font-bold text-blue-950 ">
         {billing === "MONTHLY" ? "$" + price + "/mo" : "$" + price + "/yr"}
       </p>
     </div>
@@ -25,9 +25,9 @@ function PlanLine({ name, price, billing }: Plan) {
 
 function AddOnLine({ name, price, billing }: Plan) {
   return (
-    <div>
-      <p>{name}</p>
-      <p className="text-blue-950">
+    <div className="flex justify-between items-center py-4">
+      <p className="opacity-60">{name}</p>
+      <p className="text-blue-900 font-semibold">
         {billing === "MONTHLY" ? "+$" + price + "/mo" : "+$" + price + "/yr"}
       </p>
     </div>
@@ -63,9 +63,12 @@ export function Step4() {
   let billing: "YEARLY" | "MONTHLY" | undefined = formData.plan?.billing;
 
   if (billing === undefined) {
-    // Handle undefined case or set a default value
-    billing = "MONTHLY"; // or any other default behavior
+    billing = "MONTHLY";
   }
+
+  const priceTotal =
+    selectedAddOns.reduce((res, addOn) => addOn.price + res, 0) +
+    (formData.plan?.price ?? 0);
 
   return (
     <div className="flex gap-4 flex-col mb-8">
@@ -75,11 +78,22 @@ export function Step4() {
       </p>
       <div className="bg-slate-100 p-4 pt-6 rounded-lg">
         {formData.plan && <PlanLine {...formData.plan} />}
+
+        {formData.plan?.billing &&
+          selectedAddOns.map((addOn) => (
+            <AddOnLine key={addOn.id} {...addOn} billing={billing} />
+          ))}
       </div>
-      {formData.plan?.billing &&
-        selectedAddOns.map((addOn) => (
-          <AddOnLine key={addOn.id} {...addOn} billing={billing} />
-        ))}
+      <div className="flex justify-between items-center p-4">
+        <p className="opacity-40">
+          Total {billing === "MONTHLY" ? "(per month)" : "(per year)"}
+        </p>
+        <p className="text-blue-700 font-bold">
+          {billing === "MONTHLY"
+            ? "+$" + priceTotal + "/mo"
+            : "+$" + priceTotal + "/yr"}
+        </p>
+      </div>
     </div>
   );
 }
