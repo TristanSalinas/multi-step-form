@@ -19,17 +19,18 @@ export function useSubscriptionStep(): UseSubscriptionStepReturn {
   }, [location.pathname]);
 
   const next = () => {
-    navigate(`/subscription/step${current + 1}`);
+    console.log("alo???");
+    navigate(`/subscription?step=${current + 1}`);
   };
 
   const previous = () => {
     if (current > 1) {
-      navigate(`/subscription/step${current - 1}`);
+      navigate(`/subscription?step=${current - 1}`);
     }
   };
 
   const navigateTo = (stepNumber: number) => {
-    navigate(`/subscription/step${stepNumber}`);
+    navigate(`/subscription?step=${stepNumber}`);
   };
 
   return {

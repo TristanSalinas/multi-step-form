@@ -1,11 +1,10 @@
 import { useContext } from "react";
 import { FormContext } from "../contexts/form_context";
-//import { User, Plan, AddOns } from "../types/form_types";
 
 export function useFormContext() {
   const context = useContext(FormContext);
   if (!context) {
-    throw new Error("useCart is called yet no cartContext is found");
+    throw new Error("useCart is null");
   }
   const { formData, updateFormData } = context;
 

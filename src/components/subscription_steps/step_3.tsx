@@ -44,7 +44,7 @@ function AddOnsCard(props: AddOnsCardProps) {
   };
   return (
     <label
-      className="rounded-lg p-4 h-24 flex items-center justify-center gap-4 border-2 has-[input:checked]:border-blue-500"
+      className="rounded-lg p-6 max-h-20 flex items-center justify-center gap-4 border-2 has-[input:checked]:border-blue-500 cursor-pointer hover:bg-slate-100 md:max-h-24"
       htmlFor={props.name}
     >
       <input
@@ -112,12 +112,14 @@ export function Step3() {
   }));
 
   return (
-    <div className="flex gap-4 flex-col mb-8">
+    <div className="flex gap-4 flex-col ">
       <h2 className="text-2xl font-semibold text-blue-950">Pick add-ons</h2>
       <p className="opacity-40">Add-ons help enhance your gaming experience</p>
-      {adjustedAddOns.map((addOn) => {
-        return <AddOnsCard key={addOn.name} {...addOn} billing={billing} />;
-      })}
+      <div className="flex flex-col gap-4">
+        {adjustedAddOns.map((addOn) => {
+          return <AddOnsCard key={addOn.name} {...addOn} billing={billing} />;
+        })}
+      </div>
     </div>
   );
 }

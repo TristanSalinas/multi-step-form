@@ -17,7 +17,7 @@ interface PlanCardProps {
 function PlanCard(props: PlanCardProps) {
   const { formData, updateFormData } = useFormContext();
   return (
-    <label htmlFor={props.name}>
+    <label className="flex-1 " htmlFor={props.name}>
       <input
         className="peer hidden"
         type="radio"
@@ -37,8 +37,8 @@ function PlanCard(props: PlanCardProps) {
           })
         }
       />
-      <div className="rounded-lg h-24 peer-checked:border-blue-900 peer-checked:bg-blue-50 border-2 p-4 flex gap-4">
-        <img src={props.iconPath} />
+      <div className="rounded-lg h-24 peer-checked:border-blue-900 peer-checked:bg-blue-50 border-2 p-4 flex gap-4 cursor-pointer hover:bg-slate-100 md:flex-col md:h-fit md:gap-8">
+        <img className="h-14 w-14" src={props.iconPath} />
         <div>
           <p className="font-semibold">{props.name}</p>
           <p className="opacity-35">
@@ -109,9 +109,11 @@ export function Step2() {
         <p className="opacity-40">
           You have the option of monthly or yearly billing
         </p>
-        {adjustedPlans.map((plan) => {
-          return <PlanCard key={plan.name} {...plan} billing={billing} />;
-        })}
+        <div className="flex flex-col gap-4 md:flex-row md:h-52">
+          {adjustedPlans.map((plan) => {
+            return <PlanCard key={plan.name} {...plan} billing={billing} />;
+          })}
+        </div>
       </div>
       <ToggleSwitch
         leftValue="Monthly"

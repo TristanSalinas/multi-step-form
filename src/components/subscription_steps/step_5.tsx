@@ -2,7 +2,7 @@ import thank_you from "/assets/images/icon-thank-you.svg";
 import { Link } from "react-router-dom";
 export function Step5() {
   return (
-    <div className="flex justify-center gap-4 flex-col items-center min-h-60">
+    <div className="flex h-full justify-center gap-4 flex-col items-center min-h-60">
       <img src={thank_you} alt="Thank You image" className="w-12 h-12" />
       <h2 className="font-bold text-blue-950 text-2xl">Thank you!</h2>
       <p className="text-center opacity-80">

@@ -1,6 +1,5 @@
 import { useFormContext } from "../../hooks/use_form_context";
 
-
 interface Step1InputProps {
   label: string;
   inputId: string;
@@ -27,7 +26,7 @@ function Step1Input({
         {label}
       </label>
       <input
-        className="mb-3 px-2 py-1 block w-full border rounded"
+        className="mb-3 px-2 py-3 block w-full border rounded opacity-80"
         onChange={onChange}
         id={inputId}
         type={type}
@@ -60,6 +59,7 @@ export function Step1() {
       },
     });
   };
+
   const updatePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
     data.updateFormData({
       ...data.formData,

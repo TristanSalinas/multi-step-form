@@ -71,7 +71,7 @@ export function Step4() {
     (formData.plan?.price ?? 0);
 
   return (
-    <div className="flex gap-4 flex-col mb-8">
+    <div className="flex gap-4 flex-col">
       <h2 className="text-2xl font-semibold text-blue-950">Finnishing up</h2>
       <p className="opacity-40">
         Double-check everything looks OK before confirming.
