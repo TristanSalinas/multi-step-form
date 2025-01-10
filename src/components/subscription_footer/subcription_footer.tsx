@@ -6,11 +6,13 @@ export function SubscriptionFooter() {
   const { navigateToNext, navigateToPrevious, getCurrentStepNumber } =
     useSubscriptionStep();
   const current = getCurrentStepNumber();
+
   const handleNext = () => {
     if (isStepValid(getCurrentStepNumber())) {
       navigateToNext();
     }
   };
+
   return (
     <div className="flex justify-between p-4 items-center bg-white md:rounded-xl ">
       {current !== 1 && current !== 5 && (

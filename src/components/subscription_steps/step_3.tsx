@@ -10,7 +10,7 @@ interface AddOnsCardProps {
   billing: BillingType;
 }
 
-function AddOnsCard(props: AddOnsCardProps) {
+function AddOnsCard({ id, name, price, desc, billing }: AddOnsCardProps) {
   const { formData, updateFormData } = useFormContext();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +28,7 @@ function AddOnsCard(props: AddOnsCardProps) {
         ...formData,
         addOns: {
           ...defaultaddons,
-          [props.id]: checked,
+          [id]: checked,
         },
       });
     } else {
@@ -37,7 +37,7 @@ function AddOnsCard(props: AddOnsCardProps) {
         ...formData,
         addOns: {
           ...formData.addOns,
-          [props.id]: !formData.addOns[props.id],
+          [id]: !formData.addOns[id],
         },
       });
     }
@@ -45,27 +45,25 @@ function AddOnsCard(props: AddOnsCardProps) {
   return (
     <label
       className="rounded-lg p-6 max-h-20 flex items-center justify-center gap-4 border-2 has-[input:checked]:border-blue-500 cursor-pointer hover:bg-slate-100 md:max-h-24"
-      htmlFor={props.name}
+      htmlFor={name}
     >
       <input
         className="size-6"
         type="checkbox"
         name="add-on"
-        id={props.name}
-        value={props.name}
-        checked={formData.addOns ? formData.addOns[props.id] : false}
+        id={name}
+        value={name}
+        checked={formData.addOns ? formData.addOns[id] : false}
         onChange={handleChange}
       />
 
       <div className="text-sm flex-1">
-        <p className="font-semibold text-blue-950">{props.name}</p>
-        <p className="opacity-35">{props.desc}</p>
+        <p className="font-semibold text-blue-950">{name}</p>
+        <p className="opacity-35">{desc}</p>
       </div>
 
       <p className="text-blue-700">
-        {props.billing === "MONTHLY"
-          ? `$${props.price}/mo`
-          : `$${props.price}/yr`}
+        {billing === "MONTHLY" ? `$${price}/mo` : `$${price}/yr`}
       </p>
     </label>
   );

@@ -14,39 +14,37 @@ interface PlanCardProps {
   billing: BillingType;
 }
 
-function PlanCard(props: PlanCardProps) {
+function PlanCard({ iconPath, name, price, billing }: PlanCardProps) {
   const { formData, updateFormData } = useFormContext();
   return (
-    <label className="flex-1 " htmlFor={props.name}>
+    <label className="flex-1 " htmlFor={name}>
       <input
         className="peer hidden"
         type="radio"
         name="plan"
-        id={props.name}
-        value={props.name}
-        checked={formData.plan?.name === props.name}
+        id={name}
+        value={name}
+        checked={formData.plan?.name === name}
         onChange={(e) =>
           e.target.checked &&
           updateFormData({
             ...formData,
             plan: {
-              name: props.name,
-              price: props.price,
-              billing: props.billing,
+              name: name,
+              price: price,
+              billing: billing,
             },
           })
         }
       />
       <div className="rounded-lg h-24 peer-checked:border-blue-900 peer-checked:bg-blue-50 border-2 p-4 flex gap-4 cursor-pointer hover:bg-slate-100 md:flex-col md:h-fit md:gap-8">
-        <img className="h-14 w-14" src={props.iconPath} />
+        <img className="h-14 w-14" src={iconPath} />
         <div>
-          <p className="font-semibold">{props.name}</p>
+          <p className="font-semibold">{name}</p>
           <p className="opacity-35">
-            {props.billing === "MONTHLY"
-              ? `$${props.price}/mo`
-              : `$${props.price}/yr`}
+            {billing === "MONTHLY" ? `$${price}/mo` : `$${price}/yr`}
           </p>
-          {props.billing !== "MONTHLY" && <p>2 months free</p>}
+          {billing !== "MONTHLY" && <p>2 months free</p>}
         </div>
       </div>
     </label>
