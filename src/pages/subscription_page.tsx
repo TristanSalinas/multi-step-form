@@ -1,6 +1,6 @@
 import { SubscriptionNav } from "../components/subscription_nav/subscription_nav";
 import { SubscriptionFooter } from "../components/subscription_footer/subcription_footer";
-import { FormContextProvider } from "../contexts/form_context";
+import { FormContextProvider } from "../contexts/form_context_provider";
 import { useSubscriptionStep } from "../hooks/use_subscription_step";
 
 export function SubscriptionPage() {

@@ -1,3 +1,10 @@
+export type UpdateFormDataSignature = (newData: Partial<FormData>) => void;
+
+export interface FormContextType {
+  formData: FormData;
+  updateFormData: UpdateFormDataSignature;
+}
+
 export interface User {
   name?: string;
   email?: string;
