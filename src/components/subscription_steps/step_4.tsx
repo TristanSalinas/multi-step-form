@@ -37,7 +37,7 @@ function PlanLine({ name, price, billing }: PlanlineProps) {
             billing.slice(1).toLowerCase()}
           )
         </h3>
-        <Link className="underline opacity-50" to="/subscription/step2">
+        <Link className="underline opacity-50" to="/subscription?step=2">
           Change
         </Link>
       </div>
