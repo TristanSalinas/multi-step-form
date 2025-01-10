@@ -38,33 +38,30 @@ function Step1Input({
 }
 
 export function Step1() {
-  const data = useFormContext();
+  const { formData, updateFormData } = useFormContext();
 
   const updateName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    data.updateFormData({
-      ...data.formData,
+    updateFormData({
       user: {
-        ...data.formData.user,
+        ...formData.user,
         name: e.target.value,
       },
     });
   };
 
   const updateEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    data.updateFormData({
-      ...data.formData,
+    updateFormData({
       user: {
-        ...data.formData.user,
+        ...formData.user,
         email: e.target.value,
       },
     });
   };
 
   const updatePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
-    data.updateFormData({
-      ...data.formData,
+    updateFormData({
       user: {
-        ...data.formData.user,
+        ...formData.user,
         phone: e.target.value,
       },
     });
@@ -81,7 +78,7 @@ export function Step1() {
         inputId="name"
         placeholder="e.g. Stephen King"
         type="text"
-        value={data.formData.user?.name}
+        value={formData.user.name}
         onChange={updateName}
       />
       <Step1Input
@@ -89,7 +86,7 @@ export function Step1() {
         inputId="email"
         placeholder="e.g. stephenkin@lorem.com"
         type="email"
-        value={data.formData.user?.email}
+        value={formData.user.email}
         onChange={updateEmail}
       />
       <Step1Input
@@ -97,7 +94,7 @@ export function Step1() {
         inputId="phone"
         placeholder="e.g. +1 234 567 890"
         type="tel"
-        value={data.formData.user?.phone}
+        value={formData.user.phone}
         onChange={updatePhone}
       />
     </>
