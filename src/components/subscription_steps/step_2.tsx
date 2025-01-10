@@ -74,9 +74,8 @@ export function Step2() {
   const updateBilling = (newBilling: BillingType) => {
     if (formData.plan) {
       updateFormData({
-        ...formData,
         plan: {
-          ...formData.plan,
+          name: formData.plan.name,
           price:
             newBilling === "YEARLY"
               ? formData.plan.price * 10
@@ -86,7 +85,6 @@ export function Step2() {
       });
     } else {
       updateFormData({
-        ...formData,
         plan: {
           name: "arcade",
           price: newBilling === "YEARLY" ? plans[0].price * 10 : plans[0].price,

@@ -48,7 +48,6 @@ function AddOnsCard({ id, name, price, desc, billing }: AddOnsCardProps) {
       };
       //then update the concerned value with checked value of the concerned input
       updateFormData({
-        ...formData,
         addOns: {
           ...defaultaddons,
           [id]: checked,
@@ -57,7 +56,6 @@ function AddOnsCard({ id, name, price, desc, billing }: AddOnsCardProps) {
     } else {
       //else it means that formadata already has an addons object, just mutate the concerned value
       updateFormData({
-        ...formData,
         addOns: {
           ...formData.addOns,
           [id]: !formData.addOns[id],
