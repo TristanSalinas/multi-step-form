@@ -2,9 +2,8 @@ import arcadeIcon from "/assets/images/icon-arcade.svg";
 import advancedIcon from "/assets/images/icon-advanced.svg";
 import proIcon from "/assets/images/icon-pro.svg";
 import { ToggleSwitch } from "../sub_components/toggle_switch";
-import { useState } from "react";
 import { useFormContext } from "../../hooks/use_form_context";
-
+import { priceString } from "./utils";
 const plans = [
   {
     iconPath: arcadeIcon,
@@ -29,10 +28,9 @@ interface PlanCardProps {
   iconPath: string;
   name: string;
   price: number;
-  billing: BillingType;
 }
 
-function PlanCard({ iconPath, name, price, billing }: PlanCardProps) {
+function PlanCard({ iconPath, name, price }: PlanCardProps) {
   const { formData, updateFormData } = useFormContext();
   return (
     <label className="flex-1 " htmlFor={name}>
@@ -46,11 +44,10 @@ function PlanCard({ iconPath, name, price, billing }: PlanCardProps) {
         onChange={(e) =>
           e.target.checked &&
           updateFormData({
-            ...formData,
             plan: {
               name: name,
               price: price,
-              billing: billing,
+              billing: formData.plan?.billing ?? "MONTHLY",
             },
           })
         }
@@ -60,9 +57,11 @@ function PlanCard({ iconPath, name, price, billing }: PlanCardProps) {
         <div>
           <p className="font-semibold">{name}</p>
           <p className="opacity-35">
-            {billing === "MONTHLY" ? `$${price}/mo` : `$${price}/yr`}
+            {priceString(formData.plan?.billing ?? "MONTHLY", price)}
           </p>
-          {billing !== "MONTHLY" && <p>2 months free</p>}
+          {(formData.plan?.billing ?? "MONTHLY") !== "MONTHLY" && (
+            <p>2 months free</p>
+          )}
         </div>
       </div>
     </label>
@@ -72,12 +71,7 @@ function PlanCard({ iconPath, name, price, billing }: PlanCardProps) {
 export function Step2() {
   const { formData, updateFormData } = useFormContext();
 
-  const [billing, setBilling] = useState<BillingType>(
-    formData.plan?.billing ?? "MONTHLY"
-  );
-
   const updateBilling = (newBilling: BillingType) => {
-    setBilling(newBilling);
     if (formData.plan) {
       updateFormData({
         ...formData,
@@ -90,12 +84,24 @@ export function Step2() {
           billing: newBilling,
         },
       });
+    } else {
+      updateFormData({
+        ...formData,
+        plan: {
+          name: "arcade",
+          price: newBilling === "YEARLY" ? plans[0].price * 10 : plans[0].price,
+          billing: newBilling,
+        },
+      });
     }
   };
 
   const adjustedPlans = plans.map((plan) => ({
     ...plan,
-    price: billing === "YEARLY" ? plan.price * 10 : plan.price,
+    price:
+      (formData.plan?.billing ?? "MONTHLY") === "YEARLY"
+        ? plan.price * 10
+        : plan.price,
   }));
 
   return (
@@ -109,14 +115,14 @@ export function Step2() {
         </p>
         <div className="flex flex-col gap-4 md:flex-row md:h-52">
           {adjustedPlans.map((plan) => {
-            return <PlanCard key={plan.name} {...plan} billing={billing} />;
+            return <PlanCard key={plan.name} {...plan} />;
           })}
         </div>
       </div>
       <ToggleSwitch
         leftValue="Monthly"
         rightValue="Yearly"
-        isLeftDefault={billing === "MONTHLY"}
+        isLeftDefault={(formData.plan?.billing ?? "MONTHLY") === "MONTHLY"}
         handleToggle={(isMonthly) =>
           isMonthly ? updateBilling("MONTHLY") : updateBilling("YEARLY")
         }

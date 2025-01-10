@@ -1,6 +1,7 @@
 import { useFormContext } from "../../hooks/use_form_context";
 import { Plan, AddOns } from "../../types/form_types";
 import { Link } from "react-router-dom";
+import { priceString } from "./utils";
 
 function PlanLine({ name, price, billing }: Plan) {
   return (
@@ -16,9 +17,7 @@ function PlanLine({ name, price, billing }: Plan) {
           Change
         </Link>
       </div>
-      <p className="font-bold text-blue-950 ">
-        {billing === "MONTHLY" ? "$" + price + "/mo" : "$" + price + "/yr"}
-      </p>
+      <p className="font-bold text-blue-950 ">{priceString(billing, price)}</p>
     </div>
   );
 }
@@ -28,7 +27,7 @@ function AddOnLine({ name, price, billing }: Plan) {
     <div className="flex justify-between items-center py-4">
       <p className="opacity-60">{name}</p>
       <p className="text-blue-900 font-semibold">
-        {billing === "MONTHLY" ? "+$" + price + "/mo" : "+$" + price + "/yr"}
+        {priceString(billing, price)}
       </p>
     </div>
   );
@@ -60,11 +59,7 @@ export function Step4() {
   const selectedAddOns = adjustedAddOns.filter(
     (addOn) => formData.addOns?.[addOn.id as keyof AddOns]
   );
-  let billing: "YEARLY" | "MONTHLY" | undefined = formData.plan?.billing;
-
-  if (billing === undefined) {
-    billing = "MONTHLY";
-  }
+  const billing = formData.plan?.billing ?? "MONTHLY";
 
   const priceTotal =
     selectedAddOns.reduce((res, addOn) => addOn.price + res, 0) +
@@ -89,9 +84,7 @@ export function Step4() {
           Total {billing === "MONTHLY" ? "(per month)" : "(per year)"}
         </p>
         <p className="text-blue-700 font-bold">
-          {billing === "MONTHLY"
-            ? "+$" + priceTotal + "/mo"
-            : "+$" + priceTotal + "/yr"}
+          {priceString(billing, priceTotal)}
         </p>
       </div>
     </div>

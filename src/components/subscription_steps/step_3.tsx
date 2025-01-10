@@ -1,6 +1,28 @@
 import { useFormContext } from "../../hooks/use_form_context";
+import { priceString } from "./utils";
 
 type BillingType = "MONTHLY" | "YEARLY";
+
+const addOns: AddOnsDataArray[] = [
+  {
+    id: "onlineService",
+    name: "Online service",
+    price: 1,
+    desc: "Acces to multiplayer games",
+  },
+  {
+    id: "largerSrtorage",
+    name: "Larger storage",
+    price: 2,
+    desc: "Extra 1TB of cloud save",
+  },
+  {
+    id: "customizableProfile",
+    name: "Customizable profile",
+    price: 2,
+    desc: "Custom theme on your profile",
+  },
+];
 
 interface AddOnsCardProps {
   id: "onlineService" | "largerSrtorage" | "customizableProfile";
@@ -63,9 +85,7 @@ function AddOnsCard({ id, name, price, desc, billing }: AddOnsCardProps) {
         <p className="opacity-35">{desc}</p>
       </div>
 
-      <p className="text-blue-700">
-        {billing === "MONTHLY" ? `$${price}/mo` : `$${price}/yr`}
-      </p>
+      <p className="text-blue-700">{priceString(billing, price)}</p>
     </label>
   );
 }
@@ -79,27 +99,6 @@ interface AddOnsDataArray {
 
 export function Step3() {
   const formData = useFormContext().formData;
-
-  const addOns: AddOnsDataArray[] = [
-    {
-      id: "onlineService",
-      name: "Online service",
-      price: 1,
-      desc: "Acces to multiplayer games",
-    },
-    {
-      id: "largerSrtorage",
-      name: "Larger storage",
-      price: 2,
-      desc: "Extra 1TB of cloud save",
-    },
-    {
-      id: "customizableProfile",
-      name: "Customizable profile",
-      price: 2,
-      desc: "Custom theme on your profile",
-    },
-  ];
 
   const billing: BillingType = formData.plan?.billing
     ? formData.plan?.billing
