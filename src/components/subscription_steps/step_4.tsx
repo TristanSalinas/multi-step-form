@@ -3,7 +3,7 @@ import { AddOns } from "../../types/form_types";
 import { Link } from "react-router-dom";
 import { priceString } from "./utils";
 
-const addOns = [
+const addOnsData = [
   {
     id: "onlineService",
     name: "Online service",
@@ -64,7 +64,7 @@ function AddOnLine({ name, price, billing }: AddOnLineProps) {
 export function Step4() {
   const formData = useFormContext().formData;
 
-  const adjustedAddOns = addOns.map((addOn) => ({
+  const adjustedAddOns = addOnsData.map((addOn) => ({
     ...addOn,
     price: formData.plan.billing === "YEARLY" ? addOn.price * 10 : addOn.price,
   }));
@@ -85,12 +85,11 @@ export function Step4() {
         Double-check everything looks OK before confirming.
       </p>
       <div className="bg-slate-100 p-4 pt-6 rounded-lg">
-        {formData.plan && <PlanLine {...formData.plan} />}
+        <PlanLine {...formData.plan} />
 
-        {formData.plan?.billing &&
-          selectedAddOns.map((addOn) => (
-            <AddOnLine key={addOn.id} {...addOn} billing={billing} />
-          ))}
+        {selectedAddOns.map((addOn) => (
+          <AddOnLine key={addOn.id} {...addOn} billing={billing} />
+        ))}
       </div>
       <div className="flex justify-between items-center p-4">
         <p className="opacity-40">
