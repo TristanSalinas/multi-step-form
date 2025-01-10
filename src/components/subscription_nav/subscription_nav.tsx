@@ -1,7 +1,7 @@
 import { useSubscriptionStep } from "../../hooks/use_subscription_step";
 
 export function SubscriptionNav() {
-  const currentStep = useSubscriptionStep().current;
+  const currentStep = useSubscriptionStep().getCurrentStepNumber();
   const steps = ["YOUR INFO", "SELECT PLAN", "ADD-ONS", "SUMMARY"];
   return (
     <div className="relative md:w-80">
