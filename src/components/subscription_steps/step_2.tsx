@@ -4,7 +4,15 @@ import proIcon from "/assets/images/icon-pro.svg";
 import { ToggleSwitch } from "../sub_components/toggle_switch";
 import { useFormContext } from "../../hooks/use_form_context";
 import { priceString } from "./utils";
-const plans = [
+import { PlanName } from "../../types/form_types";
+
+interface PlanData {
+  iconPath: string;
+  name: PlanName;
+  price: number;
+}
+
+const plans: PlanData[] = [
   {
     iconPath: arcadeIcon,
     name: "Arcade",
@@ -26,12 +34,13 @@ type BillingType = "MONTHLY" | "YEARLY";
 
 interface PlanCardProps {
   iconPath: string;
-  name: string;
+  name: PlanName;
   price: number;
+  handleSelection: (newPlanName: PlanName, newPlanPrice: number) => void;
 }
 
-function PlanCard({ iconPath, name, price }: PlanCardProps) {
-  const { formData, updateFormData } = useFormContext();
+function PlanCard({ iconPath, name, price, handleSelection }: PlanCardProps) {
+  const { formData } = useFormContext();
   return (
     <label className="flex-1 " htmlFor={name}>
       <input
@@ -40,28 +49,17 @@ function PlanCard({ iconPath, name, price }: PlanCardProps) {
         name="plan"
         id={name}
         value={name}
-        checked={formData.plan?.name === name}
-        onChange={(e) =>
-          e.target.checked &&
-          updateFormData({
-            plan: {
-              name: name,
-              price: price,
-              billing: formData.plan?.billing ?? "MONTHLY",
-            },
-          })
-        }
+        checked={formData.plan.name === name}
+        onChange={(e) => e.target.checked && handleSelection(name, price)}
       />
       <div className="rounded-lg h-24 peer-checked:border-blue-900 peer-checked:bg-blue-50 border-2 p-4 flex gap-4 cursor-pointer hover:bg-slate-100 md:flex-col md:h-fit md:gap-8">
         <img className="h-14 w-14" src={iconPath} />
         <div>
           <p className="font-semibold">{name}</p>
           <p className="opacity-35">
-            {priceString(formData.plan?.billing ?? "MONTHLY", price)}
+            {priceString(formData.plan.billing, price)}
           </p>
-          {(formData.plan?.billing ?? "MONTHLY") !== "MONTHLY" && (
-            <p>2 months free</p>
-          )}
+          {formData.plan.billing !== "MONTHLY" && <p>2 months free</p>}
         </div>
       </div>
     </label>
@@ -71,35 +69,32 @@ function PlanCard({ iconPath, name, price }: PlanCardProps) {
 export function Step2() {
   const { formData, updateFormData } = useFormContext();
 
-  const updateBilling = (newBilling: BillingType) => {
-    if (formData.plan) {
-      updateFormData({
-        plan: {
-          name: formData.plan.name,
-          price:
-            newBilling === "YEARLY"
-              ? formData.plan.price * 10
-              : formData.plan.price / 10,
-          billing: newBilling,
-        },
-      });
-    } else {
-      updateFormData({
-        plan: {
-          name: "arcade",
-          price: newBilling === "YEARLY" ? plans[0].price * 10 : plans[0].price,
-          billing: newBilling,
-        },
-      });
-    }
+  const changeBilling = (newBilling: BillingType) => {
+    updateFormData({
+      plan: {
+        name: formData.plan.name,
+        price:
+          newBilling === "YEARLY"
+            ? formData.plan.price * 10
+            : formData.plan.price / 10,
+        billing: newBilling,
+      },
+    });
+  };
+
+  const changePlan = (newPlanName: PlanName, newPlanPrice: number) => {
+    updateFormData({
+      plan: {
+        name: newPlanName,
+        price: newPlanPrice,
+        billing: formData.plan.billing,
+      },
+    });
   };
 
   const adjustedPlans = plans.map((plan) => ({
     ...plan,
-    price:
-      (formData.plan?.billing ?? "MONTHLY") === "YEARLY"
-        ? plan.price * 10
-        : plan.price,
+    price: formData.plan.billing === "YEARLY" ? plan.price * 10 : plan.price,
   }));
 
   return (
@@ -113,16 +108,22 @@ export function Step2() {
         </p>
         <div className="flex flex-col gap-4 md:flex-row md:h-52">
           {adjustedPlans.map((plan) => {
-            return <PlanCard key={plan.name} {...plan} />;
+            return (
+              <PlanCard
+                key={plan.name}
+                {...plan}
+                handleSelection={changePlan}
+              />
+            );
           })}
         </div>
       </div>
       <ToggleSwitch
         leftValue="Monthly"
         rightValue="Yearly"
-        isLeftDefault={(formData.plan?.billing ?? "MONTHLY") === "MONTHLY"}
+        isLeftDefault={formData.plan.billing === "MONTHLY"}
         handleToggle={(isMonthly) =>
-          isMonthly ? updateBilling("MONTHLY") : updateBilling("YEARLY")
+          isMonthly ? changeBilling("MONTHLY") : changeBilling("YEARLY")
         }
       />
     </>

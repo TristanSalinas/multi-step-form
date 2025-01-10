@@ -7,13 +7,27 @@ interface FormContextType {
   formData: FormData;
   updateFormData: UpdateFormDataSignature;
 }
+const initialFormData: FormData = {
+  user: {},
+  plan: {
+    name: "Arcade",
+    price: 9,
+    billing: "MONTHLY",
+  },
+  addOns: {
+    onlineService: false,
+    largerStorage: false,
+    customizableProfile: false,
+  },
+};
 
-export const FormContext = createContext<FormContextType | undefined>(
-  undefined
-);
+export const FormContext = createContext<FormContextType>({
+  formData: initialFormData,
+  updateFormData: () => {},
+});
 
 export function FormContextProvider({ children }: { children: ReactNode }) {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState(initialFormData);
 
   const updateFormData: UpdateFormDataSignature = (newData) => {
     setFormData((prev) => ({ ...prev, ...newData }));

@@ -1,9 +1,33 @@
 import { useFormContext } from "../../hooks/use_form_context";
-import { Plan, AddOns } from "../../types/form_types";
+import { AddOns } from "../../types/form_types";
 import { Link } from "react-router-dom";
 import { priceString } from "./utils";
 
-function PlanLine({ name, price, billing }: Plan) {
+const addOns = [
+  {
+    id: "onlineService",
+    name: "Online service",
+    price: 1,
+  },
+  {
+    id: "largerStorage",
+    name: "Larger storage",
+    price: 2,
+  },
+  {
+    id: "customizableProfile",
+    name: "Customizable profile",
+    price: 2,
+  },
+];
+
+interface PlanlineProps {
+  name: string;
+  price: number;
+  billing: "MONTHLY" | "YEARLY";
+}
+
+function PlanLine({ name, price, billing }: PlanlineProps) {
   return (
     <div className="flex justify-between items-center border-b-2 pb-4">
       <div>
@@ -22,7 +46,12 @@ function PlanLine({ name, price, billing }: Plan) {
   );
 }
 
-function AddOnLine({ name, price, billing }: Plan) {
+interface AddOnLineProps {
+  name: string;
+  price: number;
+  billing: "MONTHLY" | "YEARLY";
+}
+function AddOnLine({ name, price, billing }: AddOnLineProps) {
   return (
     <div className="flex justify-between items-center py-4">
       <p className="opacity-60">{name}</p>
@@ -34,36 +63,20 @@ function AddOnLine({ name, price, billing }: Plan) {
 }
 export function Step4() {
   const formData = useFormContext().formData;
-  const addOns = [
-    {
-      id: "onlineService",
-      name: "Online service",
-      price: 1,
-    },
-    {
-      id: "largerSrtorage",
-      name: "Larger storage",
-      price: 2,
-    },
-    {
-      id: "customizableProfile",
-      name: "Customizable profile",
-      price: 2,
-    },
-  ];
+
   const adjustedAddOns = addOns.map((addOn) => ({
     ...addOn,
-    price: formData.plan?.billing === "YEARLY" ? addOn.price * 10 : addOn.price,
+    price: formData.plan.billing === "YEARLY" ? addOn.price * 10 : addOn.price,
   }));
 
   const selectedAddOns = adjustedAddOns.filter(
     (addOn) => formData.addOns?.[addOn.id as keyof AddOns]
   );
-  const billing = formData.plan?.billing ?? "MONTHLY";
+  const billing = formData.plan.billing;
 
   const priceTotal =
     selectedAddOns.reduce((res, addOn) => addOn.price + res, 0) +
-    (formData.plan?.price ?? 0);
+    formData.plan.price;
 
   return (
     <div className="flex gap-4 flex-col">

@@ -3,6 +3,12 @@ import { priceString } from "./utils";
 
 type BillingType = "MONTHLY" | "YEARLY";
 
+interface AddOnsDataArray {
+  id: "onlineService" | "largerStorage" | "customizableProfile";
+  name: string;
+  price: number;
+  desc: string;
+}
 const addOns: AddOnsDataArray[] = [
   {
     id: "onlineService",
@@ -11,7 +17,7 @@ const addOns: AddOnsDataArray[] = [
     desc: "Acces to multiplayer games",
   },
   {
-    id: "largerSrtorage",
+    id: "largerStorage",
     name: "Larger storage",
     price: 2,
     desc: "Extra 1TB of cloud save",
@@ -25,7 +31,7 @@ const addOns: AddOnsDataArray[] = [
 ];
 
 interface AddOnsCardProps {
-  id: "onlineService" | "largerSrtorage" | "customizableProfile";
+  id: "onlineService" | "largerStorage" | "customizableProfile";
   name: string;
   price: number;
   desc: string;
@@ -39,29 +45,12 @@ function AddOnsCard({ id, name, price, desc, billing }: AddOnsCardProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
 
-    //if formdata has no addons, create somes with false as values
-    if (!formData.addOns) {
-      const defaultaddons = {
-        onlineService: false,
-        largerSrtorage: false,
-        customizableProfile: false,
-      };
-      //then update the concerned value with checked value of the concerned input
-      updateFormData({
-        addOns: {
-          ...defaultaddons,
-          [id]: checked,
-        },
-      });
-    } else {
-      //else it means that formadata already has an addons object, just mutate the concerned value
-      updateFormData({
-        addOns: {
-          ...formData.addOns,
-          [id]: !formData.addOns[id],
-        },
-      });
-    }
+    updateFormData({
+      addOns: {
+        ...formData.addOns,
+        [id]: checked,
+      },
+    });
   };
   return (
     <label
@@ -74,7 +63,7 @@ function AddOnsCard({ id, name, price, desc, billing }: AddOnsCardProps) {
         name="add-on"
         id={name}
         value={name}
-        checked={formData.addOns ? formData.addOns[id] : false}
+        checked={formData.addOns[id]}
         onChange={handleChange}
       />
 
@@ -88,19 +77,10 @@ function AddOnsCard({ id, name, price, desc, billing }: AddOnsCardProps) {
   );
 }
 
-interface AddOnsDataArray {
-  id: "onlineService" | "largerSrtorage" | "customizableProfile";
-  name: string;
-  price: number;
-  desc: string;
-}
-
 export function Step3() {
   const formData = useFormContext().formData;
 
-  const billing: BillingType = formData.plan?.billing
-    ? formData.plan?.billing
-    : "MONTHLY";
+  const billing: BillingType = formData.plan.billing;
 
   const adjustedAddOns = addOns.map((addOn) => ({
     ...addOn,
