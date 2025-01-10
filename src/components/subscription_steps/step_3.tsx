@@ -13,17 +13,18 @@ interface AddOnsCardProps {
 function AddOnsCard({ id, name, price, desc, billing }: AddOnsCardProps) {
   const { formData, updateFormData } = useFormContext();
 
+  //when an checkbox input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
-    //si formData n'a pas encore d'addons on les ajoutes
 
+    //if formdata has no addons, create somes with false as values
     if (!formData.addOns) {
       const defaultaddons = {
         onlineService: false,
         largerSrtorage: false,
         customizableProfile: false,
       };
-      //on update la form avec la nouvelle valeure checked de l'input
+      //then update the concerned value with checked value of the concerned input
       updateFormData({
         ...formData,
         addOns: {
@@ -32,7 +33,7 @@ function AddOnsCard({ id, name, price, desc, billing }: AddOnsCardProps) {
         },
       });
     } else {
-      //Sinon on update juste la valeure concernée par le changement de la checkbox sans toucher aux autre
+      //else it means that formadata already has an addons object, just mutate the concerned value
       updateFormData({
         ...formData,
         addOns: {

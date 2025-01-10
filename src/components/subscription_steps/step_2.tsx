@@ -5,6 +5,24 @@ import { ToggleSwitch } from "../sub_components/toggle_switch";
 import { useState } from "react";
 import { useFormContext } from "../../hooks/use_form_context";
 
+const plans = [
+  {
+    iconPath: arcadeIcon,
+    name: "Arcade",
+    price: 9,
+  },
+  {
+    iconPath: advancedIcon,
+    name: "Advanced",
+    price: 12,
+  },
+  {
+    iconPath: proIcon,
+    name: "Pro",
+    price: 15,
+  },
+];
+
 type BillingType = "MONTHLY" | "YEARLY";
 
 interface PlanCardProps {
@@ -52,28 +70,10 @@ function PlanCard({ iconPath, name, price, billing }: PlanCardProps) {
 }
 
 export function Step2() {
-  const plans = [
-    {
-      iconPath: arcadeIcon,
-      name: "Arcade",
-      price: 9,
-    },
-    {
-      iconPath: advancedIcon,
-      name: "Advanced",
-      price: 12,
-    },
-    {
-      iconPath: proIcon,
-      name: "Pro",
-      price: 15,
-    },
-  ];
-
   const { formData, updateFormData } = useFormContext();
 
   const [billing, setBilling] = useState<BillingType>(
-    formData.plan ? formData.plan.billing : "MONTHLY"
+    formData.plan?.billing ?? "MONTHLY"
   );
 
   const updateBilling = (newBilling: BillingType) => {

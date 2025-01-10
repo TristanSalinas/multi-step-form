@@ -9,16 +9,14 @@ Une fois que tu auras réflé la 404, faudra que tu pense a ce cas la : J'ouvre 
 https://tristansalinas.github.io/multi-step-form/subscription?step=3
 Il se passe quoi ? On est redirigé vers la step 1 ? On peut quand même commencer a partir de la 3 ? Comment tu gère tes erreurs sur les autres pages qui sont vident du coup ?
 
-On préfère la déstructuration des props pour les composants, mais surtout être régulier, tu fais les deux, faut te décider :)
 Pareil régule les concat et template litterals (je pref template literal)
 Pareil régule les auto return et return pour les .map, .filter etc (je pref les auto return)
 Revoir ta logique autour du formData, préférer l'initialiser avec des valeurs par défaut plutôt qu'a undefined ça va te faciliter pas mal de chose
 
 subscription_page.tsx
-ligne 6 commentaire inutile
 
 use_form_context
-ligne 3 commentaire inutile
+
 Le message d'erreur est pas bon dans le throw
 Le isStepValid est pas très lisible mais c'est subjectif
 
@@ -26,12 +24,11 @@ subscription_nav
 ligne 4 prefère la destructuration
 
 step_2
-Préfère écrire tes const qui sont pas dépandant du contenu de ton composant en dehors du composant (ligne57)
-ligne 78 tu peux faire formData.plan?.billing ?? "MONTHLY"
+
 Pourquoi faire un state billing alors que c'est stocker dans ton formData ?
 
 step_3
-tes coms en anglais
+
 Préfère écrire tes const qui sont pas dépandant du contenu de ton composant en dehors du composant (ligne84)
 
 step_4
