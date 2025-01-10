@@ -48,7 +48,7 @@ export function useSubscriptionStep(): UseSubscriptionStepReturn {
   };
 
   const navigateToPrevious = () => {
-    if (Number(getCurrentStepNumber()) > 1) {
+    if (getCurrentStepNumber() > 1) {
       navigate(`/subscription?step=${(getCurrentStepNumber() - 1).toString()}`);
     }
   };
