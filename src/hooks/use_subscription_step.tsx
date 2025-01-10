@@ -1,31 +1,55 @@
-import { useNavigate, useLocation } from "react-router-dom";
-import { useMemo } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Step1,
+  Step2,
+  Step3,
+  Step4,
+  Step5,
+} from "../components/subscription_steps";
 
 interface UseSubscriptionStepReturn {
-  next: () => void;
-  previous: () => void;
-  current: number;
+  navigateToNext: () => void;
+  navigateToPrevious: () => void;
+  getCurrentStepNumber: () => number;
+  getStepComponent: (step?: number) => JSX.Element;
+  getCurrentStepComponent: () => JSX.Element;
   navigateTo: (number: number) => void;
 }
 
 export function useSubscriptionStep(): UseSubscriptionStepReturn {
-  const location = useLocation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
-  //current should actualise every time location.pathname change
-  const current = useMemo(() => {
-    const match = location.pathname.match(/step(\d+)$/);
-    return match ? Math.max(1, Number(match[1])) : 1;
-  }, [location.pathname]);
+  const getCurrentStepNumber = () =>
+    parseInt(searchParams.get("step") ?? "1") ?? 1;
 
-  const next = () => {
-    console.log("alo???");
-    navigate(`/subscription?step=${current + 1}`);
+  const getStepComponent = (step?: number) => {
+    switch (step) {
+      case 1:
+        return <Step1 />;
+      case 2:
+        return <Step2 />;
+      case 3:
+        return <Step3 />;
+      case 4:
+        return <Step4 />;
+      case 5:
+        return <Step5 />;
+      default:
+        return <Step1 />;
+    }
   };
 
-  const previous = () => {
-    if (current > 1) {
-      navigate(`/subscription?step=${current - 1}`);
+  const getCurrentStepComponent = () =>
+    getStepComponent(getCurrentStepNumber());
+
+  const navigateToNext = () => {
+    navigate(`/subscription?step=${(getCurrentStepNumber() + 1).toString()}`);
+  };
+
+  const navigateToPrevious = () => {
+    if (Number(getCurrentStepNumber()) > 1) {
+      navigate(`/subscription?step=${(getCurrentStepNumber() - 1).toString()}`);
     }
   };
 
@@ -34,9 +58,11 @@ export function useSubscriptionStep(): UseSubscriptionStepReturn {
   };
 
   return {
-    next,
-    previous,
-    current,
+    navigateToNext,
+    navigateToPrevious,
+    getCurrentStepNumber,
     navigateTo,
+    getStepComponent,
+    getCurrentStepComponent,
   };
 }

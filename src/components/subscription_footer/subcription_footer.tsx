@@ -3,16 +3,18 @@ import { useSubscriptionStep } from "../../hooks/use_subscription_step";
 
 export function SubscriptionFooter() {
   const { isStepValid } = useFormContext();
-  const { current, next, previous } = useSubscriptionStep();
+  const { navigateToNext, navigateToPrevious, getCurrentStepNumber } =
+    useSubscriptionStep();
+  const current = getCurrentStepNumber();
   const handleNext = () => {
-    if (isStepValid(current)) {
-      next();
+    if (isStepValid(getCurrentStepNumber())) {
+      navigateToNext();
     }
   };
   return (
     <div className="flex justify-between p-4 items-center bg-white md:rounded-xl ">
       {current !== 1 && current !== 5 && (
-        <button className="text-slate-400 h-min" onClick={previous}>
+        <button className="text-slate-400 h-min" onClick={navigateToPrevious}>
           Go Back
         </button>
       )}
